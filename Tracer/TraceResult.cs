@@ -9,27 +9,55 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
+    /// <summary>
+    /// Class to control process of method tracing 
+    /// </summary>
     public class TraceResult
     {
-        public List<TraceThread> ThreadResults { get; }
+        private List<TraceThread> traceThreads;
+        public List<TraceThread> TraceThreads { get => traceThreads; private set => traceThreads = value; }
 
-        public bool AnalyzeMethod(MethodBase methodBase)
+        /// <summary>
+        /// Start Analyzing given method
+        /// </summary>
+        /// <param name="methodBase">method to analyze</param>
+        public void AnalyzeMethod(MethodBase methodBase)
         {
             int threadId = Thread.CurrentThread.ManagedThreadId;
+            TraceMethod traceMethod = new TraceMethod(methodBase);
 
-            int index = ThreadResults.FindIndex(x => x.Id == threadId);
-            if (index >= 0)
+            int index = -1;
+            if (TraceThreads.Count > 0)
             {
-                TraceMethod childTraceMethod = new TraceMethod(methodBase);
-                ThreadResults[index].AddMethod(childTraceMethod);
+                index = TraceThreads.FindIndex(x => x.Id == threadId);
+            }
+            if (index >= 0)
+            {           
+                TraceThreads[index].AddMethod(traceMethod);
             }
             else
             {
-               //no thread id
+                TraceThread thread = new TraceThread(threadId);
+                thread.AddMethod(traceMethod);
+                TraceThreads.Add(thread);
             }
+        }
+        /// <summary>
+        /// Stops counting Execution time (Completes analyze method)
+        /// </summary>
+        public void StopAnalyseMethod()
+        {
+            try
+            {
+                int threadId = Thread.CurrentThread.ManagedThreadId;
+                TraceThreads.Find(x => x.Id == threadId)?.StopMethodTrace();
+            }
+            catch { }
+        }
 
-
-            return true;
+        public TraceResult()
+        {
+            traceThreads = new List<TraceThread>();
         }
     }
 }

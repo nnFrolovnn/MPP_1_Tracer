@@ -18,11 +18,15 @@ namespace Tracer
         Stack<TraceMethod> methodsstack; 
 
         public List<TraceMethod> Methodslist { get => methodslist; }
-
         public long Executiontime { get => executiontime; set => executiontime = value; }
         public long Id { get => id; set => id = value; }
 
-        public bool AddMethod (TraceMethod method)
+
+        /// <summary>
+        /// Add method to List of Tracing methods
+        /// </summary>
+        /// <param name="method">method to trace</param>
+        public void AddMethod (TraceMethod method)
         {
             if (methodsstack.Count == 0)
             {
@@ -30,18 +34,24 @@ namespace Tracer
             }
             else
             {
-
+                methodsstack.Peek().AddSubmethod(method);
             }
 
-            return true;
+            methodsstack.Push(method);
+            method.StartTrace();
         }
 
-        public TraceThread()
+        public TraceThread(long newid)
         {
-            id = 0;
+            id = newid;
             executiontime = 0;
             methodslist = new List<TraceMethod>();
             methodsstack = new Stack<TraceMethod>();
+        }
+
+        public void StopMethodTrace()
+        {
+            methodsstack.Pop().StopTrace();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,10 +13,11 @@ namespace Tracer
         string classname;
         string methodname;
         long executionTime;
+        private readonly Stopwatch stopwatch;
         List<TraceMethod> methodslist;
 
-        public List<TraceMethod> Methodslist { get => methodslist;}
-        public long ExecutionTime { get => executionTime; set => executionTime = value; }
+        public List<TraceMethod> SubMethods { get => methodslist;}
+        public long ExecutionTime { get => executionTime;}
         public string Methodname { get => methodname;}
         public string Classname { get => classname;}
 
@@ -23,19 +25,36 @@ namespace Tracer
         {
             classname = newclassname;
             methodname = newmethodname;
-            ExecutionTime = 0;
+            executionTime = 0;
 
+            stopwatch = new Stopwatch();
             methodslist = new List<TraceMethod>();
         }
 
         public TraceMethod(MethodBase method)
         {
-            classname = method.Name;
-            methodname = method.DeclaringType?.Name;
-            ExecutionTime = 0;
+            methodname = method.Name;
+            classname = method.DeclaringType?.Name;
+            executionTime = 0;
 
+            stopwatch = new Stopwatch();
             methodslist = new List<TraceMethod>();
         }
 
+        public void AddSubmethod(TraceMethod method)
+        {
+            SubMethods.Add(method);
+        }
+
+        public void StartTrace()
+        {
+            stopwatch.Start();
+        }
+
+        public void StopTrace()
+        {
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+        }
     }
 }

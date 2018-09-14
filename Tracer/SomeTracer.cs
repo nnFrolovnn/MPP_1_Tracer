@@ -19,14 +19,7 @@ namespace Tracer
 
         public TraceResult GetTraceResult()
         {
-            if (isTracing)
-            {
-                return null;
-            }
-            else
-            {
-                return traceResult;
-            }
+            return (isTracing) ? null : traceResult;
         }
 
         public void StartTrace()
@@ -39,7 +32,7 @@ namespace Tracer
 
         public void StopTrace()
         {
-            throw new NotImplementedException();
+            traceResult.StopAnalyseMethod();
         }
     }
 }

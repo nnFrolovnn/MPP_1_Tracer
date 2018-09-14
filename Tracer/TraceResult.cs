@@ -15,18 +15,13 @@ namespace Tracer
 
         public bool AnalyzeMethod(MethodBase methodBase)
         {
-            //get parent method
-            StackFrame parentFrame = new StackFrame(3);
-            MethodBase parentMethod = parentFrame.GetMethod();
-
             int threadId = Thread.CurrentThread.ManagedThreadId;
 
             int index = ThreadResults.FindIndex(x => x.Id == threadId);
             if (index >= 0)
             {
-                TraceMethod parentTraceMethod = new TraceMethod(parentMethod);
                 TraceMethod childTraceMethod = new TraceMethod(methodBase);
-                ThreadResults[index].AddMethod(childTraceMethod, parentTraceMethod);
+                ThreadResults[index].AddMethod(childTraceMethod);
             }
             else
             {

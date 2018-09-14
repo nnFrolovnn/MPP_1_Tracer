@@ -15,17 +15,33 @@ namespace Tracer
         private long id;
         private long executiontime;
         List<TraceMethod> methodslist;
+        Stack<TraceMethod> methodsstack; 
 
         public List<TraceMethod> Methodslist { get => methodslist; }
 
         public long Executiontime { get => executiontime; set => executiontime = value; }
         public long Id { get => id; set => id = value; }
 
-        public bool AddMethod (TraceMethod method, TraceMethod parentmethod)
+        public bool AddMethod (TraceMethod method)
         {
-            int index = methodslist.FindIndex(x => x.Classname == parentmethod.Classname && x.Methodname == parentmethod.Methodname);
+            if (methodsstack.Count == 0)
+            {
+                methodslist.Add(method);
+            }
+            else
+            {
+
+            }
 
             return true;
+        }
+
+        public TraceThread()
+        {
+            id = 0;
+            executiontime = 0;
+            methodslist = new List<TraceMethod>();
+            methodsstack = new Stack<TraceMethod>();
         }
     }
 }

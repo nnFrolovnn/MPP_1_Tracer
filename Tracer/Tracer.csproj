@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITracer.cs" />
+    <Compile Include="Serialization\ISerialize.cs" />
+    <Compile Include="Serialization\JSONSerializer.cs" />
+    <Compile Include="Serialization\XMLSerializer.cs" />
     <Compile Include="SomeTracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraceMethod.cs" />

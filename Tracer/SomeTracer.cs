@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using Tracer.Serialization;
 
 namespace Tracer
 {
@@ -19,6 +20,7 @@ namespace Tracer
 
         public TraceResult GetTraceResult()
         {
+            //TODO
             return (isTracing) ? null : traceResult;
         }
 
@@ -33,6 +35,7 @@ namespace Tracer
         public void StopTrace()
         {
             traceResult.StopAnalyseMethod();
+            isTracing = false;
         }
     }
 }

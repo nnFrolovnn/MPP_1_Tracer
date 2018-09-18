@@ -21,7 +21,7 @@ namespace Tracer
         /// Start Analyzing given method
         /// </summary>
         /// <param name="methodBase">method to analyze</param>
-        public void AnalyzeMethod(MethodBase methodBase)
+        internal void AnalyzeMethod(MethodBase methodBase)
         {
             int threadId = Thread.CurrentThread.ManagedThreadId;
             TraceMethod traceMethod = new TraceMethod(methodBase);
@@ -45,7 +45,7 @@ namespace Tracer
         /// <summary>
         /// Stops counting Execution time (Completes analyze method)
         /// </summary>
-        public void StopAnalyseMethod()
+        internal void StopAnalyseMethod()
         {
             try
             {

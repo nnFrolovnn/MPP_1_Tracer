@@ -15,18 +15,18 @@ namespace Tracer
         private long id;
         private long executiontime;
         List<TraceMethod> methodslist;
-        Stack<TraceMethod> methodsstack; 
+        Stack<TraceMethod> methodsstack;
 
-        public List<TraceMethod> Methodslist { get => methodslist; }
-        public long Executiontime { get => executiontime; set => executiontime = value; }
-        public long Id { get => id; set => id = value; }
+        internal List<TraceMethod> Methodslist { get => methodslist; }
+        internal long Executiontime { get => executiontime; set => executiontime = value; }
+        internal long Id { get => id; private set => id = value; }
 
 
         /// <summary>
         /// Add method to List of Tracing methods
         /// </summary>
         /// <param name="method">method to trace</param>
-        public void AddMethod (TraceMethod method)
+        internal void AddMethod (TraceMethod method)
         {
             if (methodsstack.Count == 0)
             {
@@ -41,7 +41,7 @@ namespace Tracer
             method.StartTrace();
         }
 
-        public TraceThread(long newid)
+        internal TraceThread(long newid)
         {
             id = newid;
             executiontime = 0;
@@ -49,7 +49,7 @@ namespace Tracer
             methodsstack = new Stack<TraceMethod>();
         }
 
-        public void StopMethodTrace()
+        internal void StopMethodTrace()
         {
             methodsstack.Pop().StopTrace();
         }

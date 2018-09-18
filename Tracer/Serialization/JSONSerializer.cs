@@ -8,12 +8,7 @@ namespace Tracer.Serialization
 {
     public class JSONSerializer : ISerialize
     {
-        public void Serialize(TraceResult result)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string TraceResultToString(TraceResult result)
+        public string Serialize(TraceResult result)
         {
             throw new NotImplementedException();
         }

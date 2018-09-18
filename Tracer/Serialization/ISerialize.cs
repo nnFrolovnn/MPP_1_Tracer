@@ -8,7 +8,6 @@ namespace Tracer.Serialization
 {
     public interface ISerialize
     {
-        void Serialize(TraceResult result);
-        string TraceResultToString(TraceResult result);
+        string Serialize(TraceResult result);
     }
 }

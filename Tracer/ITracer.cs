@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
-    interface ITracer
+    public interface ITracer
     {
         /// <summary>
         /// Start measuring the execution time for methods

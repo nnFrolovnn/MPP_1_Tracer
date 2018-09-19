@@ -8,20 +8,19 @@ namespace Tracer
     public class SomeTracer : ITracer
     {
         private TraceResult traceResult;
-        private bool isTracing;
+        private int isTracing;
 
-        public bool IsTracing { get => isTracing; }
+        public bool IsTracing { get { return (isTracing != 0) ? true : false; } }
 
         public SomeTracer()
         {
             traceResult = new TraceResult();
-            isTracing = false;
+            isTracing = 0;
         }
 
         public TraceResult GetTraceResult()
         {
-            //TODO
-            return (isTracing) ? null : traceResult;
+            return (isTracing != 0) ? null : traceResult;
         }
 
         public void StartTrace()
@@ -29,13 +28,14 @@ namespace Tracer
             StackFrame frame = new StackFrame(1);
             MethodBase method = frame.GetMethod();
 
+            isTracing++;
             traceResult.AnalyzeMethod(method);
         }
 
         public void StopTrace()
         {
             traceResult.StopAnalyseMethod();
-            isTracing = false;
+            isTracing--;
         }
     }
 }

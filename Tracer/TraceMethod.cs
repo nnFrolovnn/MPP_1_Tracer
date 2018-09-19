@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
-    internal class TraceMethod
+    public class TraceMethod
     {
         string classname;
         string methodname;
         long executionTime;
         private readonly Stopwatch stopwatch;
         List<TraceMethod> methodslist;
-
-        internal List<TraceMethod> SubMethods { get => methodslist;}
-        internal long ExecutionTime { get => executionTime;}
-        internal string Methodname { get => methodname;}
-        internal string Classname { get => classname;}
+     
+        public string Method { get => methodname;}
+        public string Class { get => classname;}
+        public long ExecutionTime { get => executionTime; }
+        public List<TraceMethod> SubMethods { get => methodslist; }
 
         internal TraceMethod(string newmethodname, string newclassname)
         {

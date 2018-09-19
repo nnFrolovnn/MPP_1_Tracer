@@ -17,12 +17,20 @@ namespace Tracer
         List<TraceMethod> methodslist;
         Stack<TraceMethod> methodsstack;
 
-        internal List<TraceMethod> Methodslist { get => methodslist; }
-        internal long Executiontime { get => executiontime; set => executiontime = value; }
-        internal long Id { get => id; private set => id = value; }
+        public long Id { get => id; private set => id = value; }
+        public long Executiontime { get {
+                if (executiontime == 0)
+                {
+                    foreach(TraceMethod method in methodslist)
+                    {
+                        executiontime += method.ExecutionTime;
+                    }
+                }
+                return executiontime;
+            } set => executiontime = value; }
+        public List<TraceMethod> Methodslist { get => methodslist; }
 
-
-        /// <summary>
+       /// <summary>
         /// Add method to List of Tracing methods
         /// </summary>
         /// <param name="method">method to trace</param>

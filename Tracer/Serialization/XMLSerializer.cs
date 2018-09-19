@@ -10,8 +10,6 @@ namespace Tracer.Serialization
 {
     public class XMLSerializer : ISerialize
     {
-        string fileName;
-        bool writeInFile;
 
         public string Serialize(TraceResult result)
         {
@@ -33,18 +31,14 @@ namespace Tracer.Serialization
             }
             
             document.Add(root);
-            if (writeInFile)
-            {
-                WriteResult(document);
-            }
             return document.ToString();
         }
 
         private XElement MethodResultToXml(TraceMethod method)
         {
             XElement res = new XElement("method");
-            res.Add(new XAttribute("class", method.Classname));
-            res.Add(new XAttribute("name", method.Methodname));
+            res.Add(new XAttribute("class", method.Class));
+            res.Add(new XAttribute("name", method.Method));
             res.Add(new XAttribute("time", method.ExecutionTime));
 
             foreach (var innerMethod in method.SubMethods)
@@ -55,33 +49,9 @@ namespace Tracer.Serialization
             return res;
         }
 
-        private void WriteResult(XDocument document)
+        public XMLSerializer()
         {
-            try
-            {
-                using (FileStream xmlfilestream = File.Create(fileName))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(xmlfilestream))
-                    {
-                        streamWriter.WriteLine(document.ToString());
-                    }
-                }
-            }
-            catch { };
-        }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="nfileName"> if nfileName = "", file won't create</param>
-        public XMLSerializer(string nfileName)
-        {
-            fileName = nfileName;
-            if (fileName == "")
-            {
-                writeInFile = false;                
-            }
         }
     }
 }

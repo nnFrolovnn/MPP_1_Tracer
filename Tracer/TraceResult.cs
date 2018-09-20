@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tracer
 {
@@ -32,7 +27,7 @@ namespace Tracer
                 index = TraceThreads.FindIndex(x => x.Id == threadId);
             }
             if (index >= 0)
-            {           
+            {
                 TraceThreads[index].AddMethod(traceMethod);
             }
             else
@@ -47,12 +42,8 @@ namespace Tracer
         /// </summary>
         internal void StopAnalyseMethod()
         {
-            try
-            {
-                int threadId = Thread.CurrentThread.ManagedThreadId;
-                TraceThreads.Find(x => x.Id == threadId)?.StopMethodTrace();
-            }
-            catch { }
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            TraceThreads.Find(x => x.Id == threadId)?.StopMethodTrace();
         }
 
         public TraceResult()

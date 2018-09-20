@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Tracer;
 using Tracer.Serialization;
 namespace TracerAppForTests
@@ -23,12 +19,16 @@ namespace TracerAppForTests
             string json = jSONSerializer.Serialize(result);
             string xml = xMLSerializer.Serialize(result);
 
-            File.WriteAllText("out.xml", xml);
-            File.WriteAllText("out.json", json);
+            IWriter writer = new FileWriter("out.xml");
+            writer.OutPut(xml);
+            IWriter writer3 = new FileWriter("out.json");
+            writer3.OutPut(json);
 
-            Console.WriteLine(json);
+            IWriter writer2 = new ConsoleWriter();
+            writer2.OutPut(json);
             Console.WriteLine("==================================================");
-            Console.WriteLine(xml);
+            writer2.OutPut(xml);
+
             Console.ReadLine();
         }
 

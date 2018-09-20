@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Writer\FileWriter.cs" />
+    <Compile Include="Writer\Writer.cs" />
+    <Compile Include="Writer\IFileWriter.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Serialization\ISerialize.cs" />
     <Compile Include="Serialization\JSONSerializer.cs" />

@@ -11,16 +11,10 @@ namespace Tracer.Serialization
 {
     public class JSONSerializer : ISerialize
     {
-
         public string Serialize(TraceResult result)
         {
             string output = JsonConvert.SerializeObject(result.TraceThreads, Formatting.Indented);
             return output;
-        }
-
-        public JSONSerializer()
-        {
-
         }
     }
 }

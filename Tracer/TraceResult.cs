@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 
@@ -9,8 +10,8 @@ namespace Tracer
     /// </summary>
     public class TraceResult
     {
-        private List<TraceThread> traceThreads;
-        public List<TraceThread> TraceThreads { get => traceThreads; private set => traceThreads = value; }
+        private ConcurrentDictionary<int, TraceThread> traceThreads;
+        public ConcurrentDictionary<int , TraceThread> TraceThreads { get => traceThreads; private set => traceThreads = value; }
 
         /// <summary>
         /// Start Analyzing given method
@@ -21,20 +22,15 @@ namespace Tracer
             int threadId = Thread.CurrentThread.ManagedThreadId;
             TraceMethod traceMethod = new TraceMethod(methodBase);
 
-            int index = -1;
-            if (TraceThreads.Count > 0)
+            if (TraceThreads.ContainsKey(threadId))
             {
-                index = TraceThreads.FindIndex(x => x.Id == threadId);
-            }
-            if (index >= 0)
-            {
-                TraceThreads[index].AddMethod(traceMethod);
+                TraceThreads[threadId].StartTrace(traceMethod);
             }
             else
             {
-                TraceThread thread = new TraceThread(threadId);
-                thread.AddMethod(traceMethod);
-                TraceThreads.Add(thread);
+                TraceThread threadResult = new TraceThread(threadId);
+                TraceThreads.GetOrAdd(threadId, threadResult);
+                threadResult.StartTrace(traceMethod);
             }
         }
         /// <summary>
@@ -43,12 +39,12 @@ namespace Tracer
         internal void StopAnalyseMethod()
         {
             int threadId = Thread.CurrentThread.ManagedThreadId;
-            TraceThreads.Find(x => x.Id == threadId)?.StopMethodTrace();
+            TraceThreads[threadId]?.StopMethodTrace();
         }
 
         public TraceResult()
         {
-            traceThreads = new List<TraceThread>();
+            traceThreads = new ConcurrentDictionary<int, TraceThread>();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Tracer
         /// Add method to List of Tracing methods
         /// </summary>
         /// <param name="method">method to trace</param>
-        internal void AddMethod (TraceMethod method)
+        internal void StartTrace (TraceMethod method)
         {
             if (methodsstack.Count == 0)
             {

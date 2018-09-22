@@ -19,10 +19,10 @@ namespace Tracer.Serialization
             foreach (var thread in result.TraceThreads)
             {
                 var threadElement = new XElement("thread");
-                threadElement.Add(new XAttribute("id", thread.Id));
-                threadElement.Add(new XAttribute("time", thread.Executiontime));
+                threadElement.Add(new XAttribute("id", thread.Value.Id));
+                threadElement.Add(new XAttribute("time", thread.Value.Executiontime));
 
-                foreach (var method in thread.Methodslist)
+                foreach (var method in thread.Value.Methodslist)
                 {
                     threadElement.Add(MethodResultToXml(method));
                 }

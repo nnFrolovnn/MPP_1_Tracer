@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tracer;
@@ -28,13 +29,13 @@ namespace UnitTests
             }
             else
             {
-                if (result.TraceThreads[0].Methodslist.Count == 0)
+                if (result.TraceThreads.Values.FirstOrDefault().Methodslist.Count == 0)
                 {
                     Assert.Fail("no traced methods in method list");
                 }
                 else
                 {
-                    Assert.AreEqual(expectedName, result.TraceThreads[0].Methodslist[0].Method);
+                    Assert.AreEqual(expectedName, result.TraceThreads.Values.FirstOrDefault()?.Methodslist.FirstOrDefault().Method);
                 }
             }
         }
@@ -49,7 +50,7 @@ namespace UnitTests
             }
             else
             {
-                Assert.AreEqual(expectedId, result.TraceThreads[0].Id);
+                Assert.AreEqual(expectedId, result.TraceThreads.Values.FirstOrDefault()?.Id);
             }
         }
 
@@ -63,20 +64,20 @@ namespace UnitTests
             }
             else
             {
-                if (result.TraceThreads[0].Methodslist.Count == 0)
+                if (result.TraceThreads.Values.FirstOrDefault()?.Methodslist.Count == 0)
                 {
                     Assert.Fail("no traced methods in method list");
                 }
                 else
                 {
-                    Assert.AreEqual(expectedName, result.TraceThreads[0].Methodslist[0].Class);
+                    Assert.AreEqual(expectedName, result.TraceThreads.Values.FirstOrDefault()?.Methodslist.FirstOrDefault()?.Class);
                 }
             }
         }
 
         [TestMethod]
         public void TestExecutionTime()
-        {            
+        {
             if (result.TraceThreads.Count == 0)
             {
                 Assert.Fail("no traced threads in thread list");
@@ -84,11 +85,11 @@ namespace UnitTests
             else
             {
                 long expectedTime = 1400;
-                if (expectedTime > result.TraceThreads[0].Executiontime)
+                if (expectedTime > result.TraceThreads.Values.FirstOrDefault()?.Executiontime)
                 {
                     Assert.Fail("expected time is greater then actual");
                 }
-                
+
             }
         }
 
